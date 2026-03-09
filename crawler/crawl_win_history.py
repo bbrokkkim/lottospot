@@ -42,11 +42,27 @@ HEADERS = {
 
 SESSION = requests.Session()
 SESSION.headers.update(HEADERS)
-# Tor SOCKS5 프록시
-SESSION.proxies = {
+
+# Tor 프록시 (직접 연결 실패 시 자동 사용)
+TOR_PROXIES = {
     "http": "socks5h://127.0.0.1:9050",
     "https": "socks5h://127.0.0.1:9050",
 }
+
+def _setup_proxy():
+    """직접 연결 먼저 시도, 실패하면 Tor 사용."""
+    try:
+        r = requests.get(BASE_URL + "/wnprchsplcsrch/home",
+                         headers=HEADERS, timeout=8)
+        if r.status_code == 200:
+            log.info("직접 연결 성공 (Tor 불필요)")
+            return
+    except Exception:
+        pass
+    log.info("직접 연결 실패 → Tor 프록시 사용")
+    SESSION.proxies.update(TOR_PROXIES)
+
+_setup_proxy()
 
 
 def get_current_round() -> int:
