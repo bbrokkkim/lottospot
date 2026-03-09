@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0D1B2A" />
+    <title>LottoSpot — 내 주변 명당 찾기</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script>window.__KAKAO_APP_KEY__ = '%VITE_KAKAO_MAP_KEY%'</script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --color-bg: #0D1B2A;
+        --color-surface: #132337;
+        --color-surface2: #1A2E45;
+        --color-gold: #FFD700;
+        --color-silver: #C0C0C0;
+        --color-bronze: #CD7F32;
+        --color-normal: #9E9E9E;
+        --color-text: #F0F4F8;
+        --color-text-secondary: #8FA3B8;
+        --color-border: #243448;
+        --color-accent: #4A9EFF;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --radius-xl: 28px;
+      }
+      html, body, #root {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        background: none;
+      }
+      input {
+        font-family: inherit;
+        outline: none;
+        border: none;
+      }
+      /* 스크롤바 커스텀 */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--color-surface);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

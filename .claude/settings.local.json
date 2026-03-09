@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "WebSearch",
+      "WebFetch(domain:www.data.go.kr)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(DROP:*)",
+      "Bash(DELETE FROM:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
