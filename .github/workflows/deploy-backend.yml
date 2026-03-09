@@ -1,0 +1,32 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'Dockerfile'
+
+jobs:
+  deploy:
+    runs-on: self-hosted   # Windows PC에서 실행
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: ./gradlew bootJar --no-daemon -q
+
+      - name: Restart service
+        run: |
+          Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
+          Start-Sleep -Seconds 2
+          $env:DB_URL = "${{ secrets.DB_URL }}"
+          $env:DB_USER = "${{ secrets.DB_USER }}"
+          $env:DB_PASS = "${{ secrets.DB_PASS }}"
+          $env:REDIS_HOST = "${{ secrets.REDIS_HOST }}"
+          $env:REDIS_PORT = "${{ secrets.REDIS_PORT }}"
+          $env:CORS_ALLOWED_ORIGINS = "${{ secrets.CORS_ALLOWED_ORIGINS }}"
+          Start-Process java -ArgumentList "-jar", "build\libs\lotto-0.0.1-SNAPSHOT.jar" -NoNewWindow
+        shell: powershell
