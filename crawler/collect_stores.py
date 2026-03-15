@@ -254,11 +254,9 @@ def _collect_sido(
         # 첫 페이지에서 응답 구조 디버그 출력
         if page == 1:
             logger.info("[DEBUG] 응답 키 목록: %s", list(data.keys()))
-            sample = data.get("list") or data.get("body") or data.get("data") or []
-            logger.info("[DEBUG] list 건수: %d", len(sample))
-            if sample:
-                logger.info("[DEBUG] 첫 번째 항목 키: %s", list(sample[0].keys()))
-                logger.info("[DEBUG] 첫 번째 항목: %s", sample[0])
+            raw_data = data.get("data")
+            logger.info("[DEBUG] data 타입: %s", type(raw_data).__name__)
+            logger.info("[DEBUG] data 값(앞200자): %s", str(raw_data)[:200])
 
         parsed = _parse_response(data, sido)
         if not parsed:
