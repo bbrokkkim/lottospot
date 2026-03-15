@@ -176,7 +176,8 @@ def _parse_response(data: dict, sido: str) -> list[dict]:
     }
     """
     stores = []
-    for item in data.get("list", []):
+    items = data.get("data") or data.get("list") or []
+    for item in items:
         store_key = str(item.get("ltShpId", "")).strip()
         name      = str(item.get("conmNm", "")).strip()
         address   = str(item.get("bplcRdnmDaddr", "")).strip()
@@ -266,7 +267,7 @@ def _collect_sido(
 
         stores.extend(parsed)
 
-        total_count = data.get("totalCount", 0)
+        total_count = data.get("totalCount") or data.get("total") or 0
         total_pages = (total_count + _RECORDS_PER_PAGE - 1) // _RECORDS_PER_PAGE if total_count else page
         logger.info("[%s] 페이지 %d/%d 완료: %d건 파싱, 누적 %d건", sido, page, total_pages, len(parsed), len(stores))
 
