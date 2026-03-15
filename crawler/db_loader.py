@@ -36,13 +36,20 @@ _BATCH_SIZE = 100
 
 # UPSERT SQL: store_key 기준 중복 시 최신 데이터로 갱신
 _UPSERT_STORE_SQL = """
-INSERT INTO lotto_store (store_key, name, address, lat, lng, sido, sigungu, updated_at)
-VALUES (%(store_key)s, %(name)s, %(address)s, %(lat)s, %(lng)s, %(sido)s, %(sigungu)s, NOW())
+INSERT INTO lotto_store (store_key, name, address, lat, lng, location, sido, sigungu, updated_at)
+VALUES (
+    %(store_key)s, %(name)s, %(address)s, %(lat)s, %(lng)s,
+    IF(%(lat)s IS NOT NULL AND %(lng)s IS NOT NULL,
+       ST_GeomFromText(CONCAT('POINT(', %(lat)s, ' ', %(lng)s, ')'), 4326),
+       NULL),
+    %(sido)s, %(sigungu)s, NOW()
+)
 ON DUPLICATE KEY UPDATE
     name       = VALUES(name),
     address    = VALUES(address),
     lat        = VALUES(lat),
     lng        = VALUES(lng),
+    location   = VALUES(location),
     sido       = VALUES(sido),
     sigungu    = VALUES(sigungu),
     updated_at = NOW()
