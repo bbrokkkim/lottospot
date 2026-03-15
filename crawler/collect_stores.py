@@ -255,13 +255,6 @@ def _collect_sido(
             logger.error("[%s] 페이지 %d 요청 실패", sido, page)
             break
 
-        # 첫 페이지에서 응답 구조 디버그 출력
-        if page == 1:
-            logger.info("[DEBUG] 응답 키 목록: %s", list(data.keys()))
-            raw_data = data.get("data")
-            logger.info("[DEBUG] data 타입: %s", type(raw_data).__name__)
-            logger.info("[DEBUG] data 값(앞200자): %s", str(raw_data)[:200])
-
         parsed = _parse_response(data, sido)
         if not parsed:
             logger.debug("[%s] 페이지 %d 결과 없음. 수집 종료", sido, page)
