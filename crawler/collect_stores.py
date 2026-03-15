@@ -264,12 +264,13 @@ def _collect_sido(
 
         inner = data.get("data") or {}
         total_count = (inner.get("total") if isinstance(inner, dict) else 0) or 0
-        total_pages = (total_count + _RECORDS_PER_PAGE - 1) // _RECORDS_PER_PAGE if total_count else page
-        logger.info("[%s] 페이지 %d/%d 완료: %d건 파싱, 누적 %d건", sido, page, total_pages, len(parsed), len(stores))
+        actual_per_page = (inner.get("boundInfo") or {}).get("recordCountPerPage") or _RECORDS_PER_PAGE
+        total_pages = (total_count + actual_per_page - 1) // actual_per_page if total_count else page
+        logger.info("[%s] 페이지 %d/%d 완료: %d건 파싱, 누적 %d건 (총 %d건)", sido, page, total_pages, len(parsed), len(stores), total_count)
 
         if limit and len(stores) >= limit:
             break
-        if page >= total_pages or len(parsed) < _RECORDS_PER_PAGE:
+        if page >= total_pages:
             break
 
         page += 1
